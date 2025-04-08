@@ -2,7 +2,7 @@
 // import { logoutUser } from '@/actions/auth';
 import HeaderSearchBar from "./SearchBar";
 // import { useCartStore } from '@/stores/cart-store';
-import { User } from "@prisma/client";
+// import { User } from "@prisma/client";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import Announcements from "./Announcements";
@@ -13,10 +13,12 @@ import {
   HiOutlineShoppingBag,
 } from "react-icons/hi";
 import { ClerkSignInOut } from "./ClerkSignInOut";
+import { APP_NAME } from "@/lib/constants";
+import ModeToggle from "./ModeToggle";
 // import { useShallow } from 'zustand/shallow';
 
 type HeaderProps = {
-  user?: Omit<User, "passwordHash"> | null;
+  // user?: Omit<User, "passwordHash"> | null;
   categorySelector?: React.ReactNode;
 };
 
@@ -73,13 +75,12 @@ const Header = ({ categorySelector }: HeaderProps) => {
 
               <nav className="hidden md:flex gap-4 lg:gap-6 text-sm font-medium">
                 {categorySelector}
-                <Link href="#">Sale</Link>
               </nav>
             </div>
 
-            <Link href="/" className="absolute left-1/2 -translate-x-1/2">
+            <Link href="/" className="absolute left-1/3 -translate-x-1/2">
               <span className="text-xl sm:text-2xl font-bold tracking-tight">
-                DEAL
+                {APP_NAME}
               </span>
             </Link>
 
@@ -92,6 +93,7 @@ const Header = ({ categorySelector }: HeaderProps) => {
                 </button>
 
                 <div className="hidden md:flex gap-4 lg:gap-6 text-sm font-medium">
+                  <ModeToggle />
                   <ClerkSignInOut />
 
                   <button

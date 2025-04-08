@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 // import { Inter } from "next/font/google";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import "@/assets/styles/globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { APP_DESCRIPTION, APP_NAME, SERVER_URL } from "@/lib/constants";
+import { ThemeProvider } from "next-themes";
 
 // const inter = Inter({
 //   subsets: ["latin"],
@@ -36,11 +37,18 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en">
+      <html lang="en" suppressHydrationWarning>
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-[125vh]`}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-[100vh]`}
         >
-          {children}
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="light"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>
