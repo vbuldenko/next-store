@@ -1,4 +1,4 @@
-import { UserDetails } from "@/components/UserDetails";
+import { UserDetails } from "../../components/UserDetails";
 
 export default async function DashboardPage() {
   return (

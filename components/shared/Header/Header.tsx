@@ -1,6 +1,6 @@
 "use client";
 // import { logoutUser } from '@/actions/auth';
-import HeaderSearchBar from "@/components/layout/Header/SearchBar";
+import HeaderSearchBar from "./SearchBar";
 // import { useCartStore } from '@/stores/cart-store';
 import { User } from "@prisma/client";
 import Link from "next/link";
@@ -77,7 +77,7 @@ const Header = ({ categorySelector }: HeaderProps) => {
               </nav>
             </div>
 
-            <Link href="#" className="absolute left-1/2 -translate-x-1/2">
+            <Link href="/" className="absolute left-1/2 -translate-x-1/2">
               <span className="text-xl sm:text-2xl font-bold tracking-tight">
                 DEAL
               </span>
