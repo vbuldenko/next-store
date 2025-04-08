@@ -24,7 +24,7 @@ export const ClerkSignInOut = () => {
       </SignedIn>
       <SignedOut>
         <SignInButton>
-          <button className="cursor-pointer leading-none px-4 py-2 rounded-full bg-[#131316] text-white text-sm font-semibold">
+          <button className="cursor-pointer leading-none px-4 py-2 rounded-full bg-[#131316] text-white text-sm font-semibold w-max">
             Sign in
           </button>
         </SignInButton>

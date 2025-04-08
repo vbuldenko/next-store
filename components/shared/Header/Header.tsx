@@ -9,12 +9,13 @@ import Announcements from "./Announcements";
 import clsx from "clsx";
 import {
   HiMenu,
-  HiOutlineDotsHorizontal,
-  HiOutlineShoppingBag,
+  // HiOutlineDotsHorizontal,
+  // HiOutlineShoppingBag,
 } from "react-icons/hi";
-import { ClerkSignInOut } from "./ClerkSignInOut";
+// import { ClerkSignInOut } from "./ClerkSignInOut";
 import { APP_NAME } from "@/lib/constants";
-import ModeToggle from "./ModeToggle";
+// import ModeToggle from "./ModeToggle";
+import Menu from "./Menu";
 // import { useShallow } from 'zustand/shallow';
 
 type HeaderProps = {
@@ -87,7 +88,7 @@ const Header = ({ categorySelector }: HeaderProps) => {
             <div className="flex flex-1 justify-end items-center gap-2 sm:gap-4">
               <HeaderSearchBar />
 
-              <div className="flex justify-start items-center gap-4 sm:gap-6">
+              {/* <div className="flex justify-start items-center gap-4 sm:gap-6">
                 <button className="text-gray-700 hover:text-gray-900 md:hidden">
                   <HiOutlineDotsHorizontal className="size-6" />
                 </button>
@@ -96,18 +97,16 @@ const Header = ({ categorySelector }: HeaderProps) => {
                   <ModeToggle />
                   <ClerkSignInOut />
 
-                  <button
-                    // onClick={() => open()}
-                    className="text-gray-700 hover:text-gray-900 relative"
-                  >
+                  <button className="text-gray-700 hover:text-gray-900 relative">
                     <HiOutlineShoppingBag className="size-6" />
                     <span className="absolute -top-1 -right-1 bg-black text-white text-[10px] sm:text-xs w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full flex items-center justify-center">
-                      {/* {getTotalItems() || 0} */}
                       {0}
                     </span>
                   </button>
                 </div>
-              </div>
+              </div> */}
+
+              <Menu />
             </div>
           </div>
         </div>
