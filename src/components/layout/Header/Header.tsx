@@ -4,7 +4,6 @@ import HeaderSearchBar from "@/components/layout/Header/SearchBar";
 // import { useCartStore } from '@/stores/cart-store';
 import { User } from "@prisma/client";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import Announcements from "./Announcements";
 import clsx from "clsx";
@@ -13,6 +12,7 @@ import {
   HiOutlineDotsHorizontal,
   HiOutlineShoppingBag,
 } from "react-icons/hi";
+import { ClerkSignInOut } from "./ClerkSignInOut";
 // import { useShallow } from 'zustand/shallow';
 
 type HeaderProps = {
@@ -20,9 +20,7 @@ type HeaderProps = {
   categorySelector?: React.ReactNode;
 };
 
-const Header = ({ user, categorySelector }: HeaderProps) => {
-  const router = useRouter();
-
+const Header = ({ categorySelector }: HeaderProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [prevScrollY, setPrevScrollY] = useState<number>(0);
 
@@ -66,7 +64,7 @@ const Header = ({ user, categorySelector }: HeaderProps) => {
       >
         <Announcements />
 
-        <div className="w-full flex justify-between items-center py-3 sm:py-4 bg-white/80 shadow-sm border-b border-gray-100 backdrop-blur-sm">
+        <div className="w-full flex justify-between items-center py-3 sm:py-4 bg-white/60 shadow-sm border-b border-gray-100 backdrop-blur-sm">
           <div className="flex justify-between items-center container mx-auto px-8">
             <div className="flex flex-1 justify-start items-center gap-4 sm:gap-6">
               <button className="text-gray-700 hover:text-gray-900 md:hidden">
@@ -94,44 +92,16 @@ const Header = ({ user, categorySelector }: HeaderProps) => {
                 </button>
 
                 <div className="hidden md:flex gap-4 lg:gap-6 text-sm font-medium">
-                  {user ? (
-                    <div className="flex items-center gap-2 sm:gap-4">
-                      {/* <span className='text-sm text-gray-700 hidden md:block'>{user.email}</span> */}
-                      <Link
-                        href="#"
-                        className="text-xs sm:text-sm font-medium text-gray-700 hover:text-gray-900"
-                        onClick={async (e) => {
-                          e.preventDefault();
-                          // await logoutUser();
-                          router.refresh();
-                        }}
-                      >
-                        Sign Out
-                      </Link>
-                    </div>
-                  ) : (
-                    <>
-                      <Link
-                        href="/auth/sign-in"
-                        className="text-xs sm:text-sm font-medium text-gray-700 hover:text-gray-900"
-                      >
-                        Sign In
-                      </Link>
-                      <Link
-                        href="/auth/sign-up"
-                        className="text-xs sm:text-sm font-medium text-gray-700 hover:text-gray-900"
-                      >
-                        Sign Up
-                      </Link>
-                    </>
-                  )}
+                  <ClerkSignInOut />
+
                   <button
                     // onClick={() => open()}
                     className="text-gray-700 hover:text-gray-900 relative"
                   >
                     <HiOutlineShoppingBag className="size-6" />
                     <span className="absolute -top-1 -right-1 bg-black text-white text-[10px] sm:text-xs w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full flex items-center justify-center">
-                      {/* {getTotalItems()} */}
+                      {/* {getTotalItems() || 0} */}
+                      {0}
                     </span>
                   </button>
                 </div>
