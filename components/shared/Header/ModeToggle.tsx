@@ -25,7 +25,7 @@ const ModeToggle = () => {
   return (
     <button
       onClick={toggleTheme}
-      className="rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex items-center justify-center p-2"
+      className="rounded-md hover:bg-gray-100 transition-colors flex items-center justify-center p-2"
       aria-label="Toggle theme"
     >
       {theme === "light" && <FiSun className="h-6 w-6" />}
