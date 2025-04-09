@@ -79,7 +79,10 @@ const Header = ({ categorySelector }: HeaderProps) => {
               </nav>
             </div>
 
-            <Link href="/" className="absolute left-1/3 -translate-x-1/2">
+            <Link
+              href="/"
+              className="hidden sm:flex absolute left-1/3 -translate-x-1/2"
+            >
               <span className="text-xl sm:text-2xl font-bold tracking-tight">
                 {APP_NAME}
               </span>
