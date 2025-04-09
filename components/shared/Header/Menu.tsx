@@ -31,8 +31,8 @@ const Menu = () => {
         } md:hidden`}
       >
         <div className="p-4 flex flex-col gap-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold">Menu</h2>
+          <div className="flex items-center justify-between border-b border-gray-200 pb-3">
+            <h2 className="text-lg font-semibold dark:text-gray-400">Menu</h2>
             <button onClick={toggleMenu}>
               <HiX className="size-6" />
             </button>
