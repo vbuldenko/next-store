@@ -5,7 +5,7 @@ import {
   HiOutlineShoppingBag,
   HiX,
 } from "react-icons/hi";
-import { ClerkSignInOut } from "./ClerkSignInOut";
+// import { ClerkSignInOut } from "./ClerkSignInOut";
 
 const Menu = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -42,7 +42,7 @@ const Menu = () => {
           </div>
 
           <div className="flex flex-col mt-4 gap-4 items-start">
-            <ClerkSignInOut />
+            {/* <ClerkSignInOut /> */}
             <ModeToggle />
             <button className="rounded-md hover:bg-gray-100 relative flex p-2">
               <HiOutlineShoppingBag className="size-6" />
@@ -59,7 +59,7 @@ const Menu = () => {
         <ModeToggle />
 
         <div className="flex items-center justify-center gap-4 lg:gap-6 text-sm font-medium">
-          <ClerkSignInOut />
+          {/* <ClerkSignInOut /> */}
           <button className="relative cursor-pointer rounded-md hover:bg-gray-100 p-2">
             <HiOutlineShoppingBag className="size-6" />
             <span className="absolute top-1 right-1 bg-black text-white text-[10px] sm:text-xs w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full flex items-center justify-center">

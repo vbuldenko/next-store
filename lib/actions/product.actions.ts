@@ -1,11 +1,11 @@
 "use server";
 // import { prisma } from '@/db/prisma';
-import { convertToPlainObject, formatError } from "../utils";
-import { LATEST_PRODUCTS_LIMIT, PAGE_SIZE } from "../constants";
+import { convertToPlainObject } from "../utils";
+import { LATEST_PRODUCTS_LIMIT } from "../constants";
 // import { revalidatePath } from "next/cache";
 // import { insertProductSchema, updateProductSchema } from '../validators';
 // import { z } from "zod";
-import { Prisma, PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 
 // Get latest products
 export async function getLatestProducts() {
