@@ -2,6 +2,8 @@
 // import { twMerge } from 'tailwind-merge';
 // import qs from 'query-string';
 
+import bcrypt from "bcryptjs";
+
 // export function cn(...inputs: ClassValue[]) {
 //   return twMerge(clsx(inputs));
 // }
@@ -146,3 +148,10 @@ export function formatError(error: any) {
 //     }
 //   );
 // }
+
+export async function hashPassword(
+  password: string,
+  saltRounds: number = 10
+): Promise<string> {
+  return await bcrypt.hash(password, saltRounds);
+}
