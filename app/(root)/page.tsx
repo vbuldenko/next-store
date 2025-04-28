@@ -1,4 +1,4 @@
-import ProductList from "@/components/product/ProductList";
+// import ProductList from "@/components/product/ProductList";
 // import { getLatestProducts } from "@/lib/actions/product.actions";
 
 export default async function Home() {
