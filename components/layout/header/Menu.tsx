@@ -6,6 +6,8 @@ import {
   HiX,
 } from "react-icons/hi";
 import SignIn from "./auth/NextAuthSignIn";
+import SignInPage from "@/app/signin/page";
+import Link from "next/link";
 // import { ClerkSignInOut } from "./ClerkSignInOut";
 
 const Menu = () => {
@@ -61,7 +63,8 @@ const Menu = () => {
 
         <div className="flex items-center justify-center gap-4 lg:gap-6 text-sm font-medium">
           {/* <ClerkSignInOut /> */}
-          <SignIn />
+          <Link href="/signin">{/* <SignInPage /> */} Sign In</Link>
+
           <button className="relative cursor-pointer rounded-md hover:bg-gray-100 p-2">
             <HiOutlineShoppingBag className="size-6" />
             <span className="absolute top-1 right-1 bg-black text-white text-[10px] sm:text-xs w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full flex items-center justify-center">
