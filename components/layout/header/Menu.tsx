@@ -5,7 +5,7 @@ import {
   HiOutlineShoppingBag,
   HiX,
 } from "react-icons/hi";
-import SignIn from "./NextAuthSignIn";
+import SignIn from "./auth/NextAuthSignIn";
 // import { ClerkSignInOut } from "./ClerkSignInOut";
 
 const Menu = () => {
