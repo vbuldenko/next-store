@@ -2,6 +2,8 @@ import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 import { hashPassword } from "./lib/utils";
+import { signInSchema } from "./lib/zod";
+import { ZodError } from "zod";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -20,22 +22,36 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         },
       },
       async authorize(credentials) {
-        let user = null;
+        try {
+          let user = null;
 
-        // logic to salt and hash password
-        const pwHash = hashPassword(credentials.password as string);
+          const { email, password } = await signInSchema.parseAsync(
+            credentials
+          );
 
-        // logic to verify if the user exists
-        // user = await getUserFromDb(credentials.email, pwHash);
+          // logic to salt and hash password
+          const pwHash = hashPassword(credentials.password as string);
 
-        if (!user) {
-          // No user found, so this is their first attempt to login
-          // Optionally, this is also the place you could do a user registration
+          // logic to verify if the user exists
+          // user = await getUserFromDb(credentials.email, pwHash);
+
+          if (!user) {
+            // No user found, so this is their first attempt to login
+            // Optionally, this is also the place you could do a user registration
+            throw new Error("Invalid credentials.");
+          }
+
+          // return user object with their profile data
+          return user;
+        } catch (error) {
+          // Handle error
+          console.error("Error during sign-in:", error);
+          if (error instanceof ZodError) {
+            // Return `null` to indicate that the credentials are invalid
+            return null;
+          }
           throw new Error("Invalid credentials.");
         }
-
-        // return user object with their profile data
-        return user;
       },
     }),
   ],
