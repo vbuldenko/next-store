@@ -13,7 +13,8 @@ import {
 } from "react-icons/hi";
 // import { ClerkSignInOut } from "./ClerkSignInOut";
 // import ModeToggle from "./ModeToggle";
-import Menu from "./Menu";
+import Menu from "./menu/";
+// import Menu from "./Menu";
 import { Logo } from "./Logo";
 // import { useShallow } from 'zustand/shallow';
 
