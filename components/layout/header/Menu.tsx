@@ -5,8 +5,7 @@ import {
   HiOutlineShoppingBag,
   HiX,
 } from "react-icons/hi";
-import SignIn from "./auth/NextAuthSignIn";
-import SignInPage from "@/app/(auth)/signin/page";
+
 import Link from "next/link";
 // import { ClerkSignInOut } from "./ClerkSignInOut";
 

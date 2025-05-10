@@ -40,7 +40,7 @@ export default async function SignInPage(props: {
           </div>
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition"
+            className="w-full bg-black text-white py-2 rounded-md hover:bg-blue-600 transition"
           >
             Sign In
           </button>
@@ -66,7 +66,7 @@ export default async function SignInPage(props: {
                 type="submit"
                 className="flex items-center justify-center gap-2 w-full border border-gray-300 py-2 rounded-md hover:bg-gray-100 transition"
               >
-                <FaGoogle className="text-gray-500" />
+                <FaGoogle className="text-black" />
                 <span className="text-gray-800">
                   Sign in with {provider.name}
                 </span>
