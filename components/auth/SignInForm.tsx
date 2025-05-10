@@ -11,6 +11,7 @@ export default function SignInForm() {
         name="email"
         id="email"
         placeholder="Email"
+        autoComplete="email"
       />
 
       <InputField
@@ -19,6 +20,7 @@ export default function SignInForm() {
         name="password"
         id="password"
         placeholder="Password"
+        autoComplete="current-password"
       />
 
       <button
