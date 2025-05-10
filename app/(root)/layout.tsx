@@ -8,7 +8,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex h-screen flex-col">
+    <div className="flex min-h-screen flex-col overflow-x-hidden">
       <Header categorySelector={<HeaderCategorySelector />} />
       <main className="flex-1 p-10">{children}</main>
       <Footer />

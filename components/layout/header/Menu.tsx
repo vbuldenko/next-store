@@ -1,3 +1,4 @@
+"use client";
 import { useState } from "react";
 import ModeToggle from "./ModeToggle";
 import {
@@ -5,9 +6,7 @@ import {
   HiOutlineShoppingBag,
   HiX,
 } from "react-icons/hi";
-
-import Link from "next/link";
-// import { ClerkSignInOut } from "./ClerkSignInOut";
+import SignInOutButton from "@/components/auth/SignInOutButton";
 
 const Menu = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -17,7 +16,7 @@ const Menu = () => {
   };
 
   return (
-    <div className="relative flex gap-3">
+    <div className="flex gap-3">
       {/* Mobile Menu Toggle Button */}
       <button
         onClick={toggleMenu}
@@ -26,9 +25,17 @@ const Menu = () => {
         <HiOutlineDotsHorizontal className="size-6" />
       </button>
 
+      {/* Overlay */}
+      {isMenuOpen && (
+        <div
+          className="fixed inset-0 bg-black/30 z-40 md:hidden"
+          onClick={toggleMenu}
+        />
+      )}
+
       {/* Mobile Menu */}
       <div
-        className={`fixed top-0 right-0 min-h-[100vh] w-64 bg-white dark:bg-black shadow-md z-50 transform transition-transform duration-300 ${
+        className={`absolute top-0 right-0 min-h-[100vh] w-64 bg-white dark:bg-black shadow-md z-50 transform transition-transform duration-300 ${
           isMenuOpen ? "translate-x-0" : "translate-x-full"
         } md:hidden`}
       >
@@ -44,8 +51,8 @@ const Menu = () => {
           </div>
 
           <div className="flex flex-col mt-4 gap-4 items-start">
-            {/* <ClerkSignInOut /> */}
             <ModeToggle />
+            <SignInOutButton />
             <button className="rounded-md hover:bg-gray-100 relative flex p-2">
               <HiOutlineShoppingBag className="size-6" />
               <span className="absolute top-1 right-1 bg-black text-white text-[10px] sm:text-xs w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full flex items-center justify-center">
@@ -61,8 +68,7 @@ const Menu = () => {
         <ModeToggle />
 
         <div className="flex items-center justify-center gap-4 lg:gap-6 text-sm font-medium">
-          {/* <ClerkSignInOut /> */}
-          <Link href="/signin">{/* <SignInPage /> */} Sign In</Link>
+          <SignInOutButton />
 
           <button className="relative cursor-pointer rounded-md hover:bg-gray-100 p-2">
             <HiOutlineShoppingBag className="size-6" />

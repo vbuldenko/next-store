@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 // import { Inter } from "next/font/google";
 import { Geist, Geist_Mono } from "next/font/google";
 import "@/assets/styles/globals.css";
-import { ClerkProvider } from "@clerk/nextjs";
 import { APP_DESCRIPTION, APP_NAME, SERVER_URL } from "@/lib/constants";
 import { ThemeProvider } from "next-themes";
+import { SessionProvider } from "@/components/auth/SessionProvider";
 
 // const inter = Inter({
 //   subsets: ["latin"],
@@ -36,11 +36,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-      <html lang="en" suppressHydrationWarning>
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-[100vh]`}
-        >
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={`
+            ${geistSans.variable}
+            ${geistMono.variable}
+            antialiased
+            min-h-[100vh]
+            `}
+      >
+        <SessionProvider>
           <ThemeProvider
             attribute="data-theme"
             defaultTheme="light"
@@ -49,8 +54,8 @@ export default function RootLayout({
           >
             {children}
           </ThemeProvider>
-        </body>
-      </html>
-    </ClerkProvider>
+        </SessionProvider>
+      </body>
+    </html>
   );
 }
