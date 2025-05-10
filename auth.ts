@@ -5,6 +5,8 @@ import { hashPassword } from "./lib/utils";
 import { signInSchema } from "./lib/zod";
 import { ZodError } from "zod";
 import { Provider } from "next-auth/providers";
+import { PrismaAdapter } from "@auth/prisma-adapter";
+import { prisma } from "@/lib/db/prisma";
 
 const providers: Provider[] = [
   Credentials({
@@ -22,7 +24,7 @@ const providers: Provider[] = [
     },
     async authorize(credentials) {
       try {
-        let user = null;
+        const user = null;
 
         const { email, password } = await signInSchema.parseAsync(credentials);
 
@@ -66,6 +68,7 @@ export const providerMap = providers
   .filter((provider) => provider.id !== "credentials");
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  adapter: PrismaAdapter(prisma),
   providers,
   pages: {
     signIn: "/signin",
