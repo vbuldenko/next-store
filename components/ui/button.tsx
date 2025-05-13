@@ -42,7 +42,7 @@ const Button = ({
   className,
   variant,
   size,
-  asChild = false,
+  // asChild = false,
   ref,
   ...props
 }: ButtonProps) => {

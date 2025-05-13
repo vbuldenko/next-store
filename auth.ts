@@ -1,12 +1,12 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
-import { hashPassword } from "./lib/utils";
+// import { hashPassword } from "./lib/utils";
 import { ZodError } from "zod";
 import { Provider } from "next-auth/providers";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/lib/db/prisma";
-import { signInFormSchema } from "./lib/validators";
+// import { signInFormSchema } from "./lib/validators";
 
 const providers: Provider[] = [
   Credentials({
@@ -24,14 +24,17 @@ const providers: Provider[] = [
     },
     async authorize(credentials) {
       try {
-        const user = null;
+        let user;
 
-        const { email, password } = await signInFormSchema.parseAsync(
-          credentials
-        );
+        if (!credentials) {
+          user = null;
+        }
+        // const { email, password } = await signInFormSchema.parseAsync(
+        //   credentials
+        // );
 
         // logic to salt and hash password
-        const pwHash = hashPassword(credentials.password as string);
+        // const pwHash = hashPassword(credentials.password as string);
 
         // logic to verify if the user exists
         // user = await getUserFromDb(credentials.email, pwHash);
