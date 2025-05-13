@@ -5,7 +5,7 @@ import Google from "next-auth/providers/google";
 import { ZodError } from "zod";
 import { Provider } from "next-auth/providers";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { prisma } from "@/lib/db/prisma";
+import prisma from "@/lib/db/prisma";
 // import { signInFormSchema } from "./lib/validators";
 
 const providers: Provider[] = [
