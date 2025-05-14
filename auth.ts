@@ -73,7 +73,7 @@ export const providerMap = providers
   .filter((provider) => provider.id !== "credentials");
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  adapter: PrismaAdapter(prisma as any),
+  adapter: PrismaAdapter(prisma),
   providers,
   pages: {
     signIn: "/signin",

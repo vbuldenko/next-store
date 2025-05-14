@@ -1,12 +1,12 @@
-// import { clsx, type ClassValue } from 'clsx';
-// import { twMerge } from 'tailwind-merge';
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 // import qs from 'query-string';
 
 import bcrypt from "bcryptjs";
 
-// export function cn(...inputs: ClassValue[]) {
-//   return twMerge(clsx(inputs));
-// }
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
 
 // Convert prisma object into a regular JS object
 export function convertToPlainObject<T>(value: T): T {
@@ -45,15 +45,15 @@ export function formatError(error: any) {
 }
 
 // // Round number to 2 decimal places
-// export function round2(value: number | string) {
-//   if (typeof value === 'number') {
-//     return Math.round((value + Number.EPSILON) * 100) / 100;
-//   } else if (typeof value === 'string') {
-//     return Math.round((Number(value) + Number.EPSILON) * 100) / 100;
-//   } else {
-//     throw new Error('Value is not a number or string');
-//   }
-// }
+export function round2(value: number | string) {
+  if (typeof value === "number") {
+    return Math.round((value + Number.EPSILON) * 100) / 100;
+  } else if (typeof value === "string") {
+    return Math.round((Number(value) + Number.EPSILON) * 100) / 100;
+  } else {
+    throw new Error("Value is not a number or string");
+  }
+}
 
 // const CURRENCY_FORMATTER = new Intl.NumberFormat('en-US', {
 //   currency: 'USD',
