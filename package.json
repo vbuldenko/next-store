@@ -7,13 +7,18 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "view-db": "prisma studio",
+    "migrate": "prisma migrate dev",
+    "seed": "tsx ./lib/db/seed",
     "postinstall": "prisma generate"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.9.1",
+    "@neondatabase/serverless": "^1.0.0",
     "@prisma/adapter-neon": "^6.7.0",
     "@prisma/adapter-pg": "^6.7.0",
     "@prisma/client": "^6.7.0",
+    "@types/ws": "^8.18.1",
     "bcryptjs": "^3.0.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -23,6 +28,7 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-icons": "^5.5.0",
+    "ws": "^8.18.2",
     "zod": "^3.24.2",
     "zustand": "^5.0.3"
   },
@@ -36,6 +42,7 @@
     "eslint-config-next": "15.2.4",
     "prisma": "^6.7.0",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3"
   }
 }
