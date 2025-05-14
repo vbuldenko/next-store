@@ -1,13 +1,8 @@
 "use server";
 
 import { signIn } from "@/auth";
-
 import { redirect } from "next/navigation";
 import { AuthError } from "next-auth";
-
-interface ExtendedAuthError extends AuthError {
-  type: string;
-}
 
 const SIGNIN_ERROR_URL = "/error";
 
@@ -17,10 +12,8 @@ export async function handleProviderSignIn(formData: FormData) {
   try {
     await signIn(providerId, { redirectTo: callbackUrl ?? "" });
   } catch (error) {
-    if ((error as ExtendedAuthError).type) {
-      return redirect(
-        `${SIGNIN_ERROR_URL}?error=${(error as ExtendedAuthError).type}`
-      );
+    if (error instanceof AuthError) {
+      return redirect(`${SIGNIN_ERROR_URL}?error=${error.type}`);
     }
     throw error;
   }
@@ -30,10 +23,8 @@ export async function handleCredentialsSignIn(formData: FormData) {
   try {
     await signIn("credentials", formData);
   } catch (error) {
-    if ((error as ExtendedAuthError).type) {
-      return redirect(
-        `${SIGNIN_ERROR_URL}?error=${(error as ExtendedAuthError).type}`
-      );
+    if (error instanceof AuthError) {
+      return redirect(`${SIGNIN_ERROR_URL}?error=${error.type}`);
     }
     throw error;
   }
