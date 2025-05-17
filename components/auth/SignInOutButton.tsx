@@ -24,7 +24,7 @@ export default function SignInOutButton() {
   }
 
   return (
-    <Link href="/signin" className="flex items-center gap-2 text-sm">
+    <Link href="/sign-in" className="flex items-center gap-2 text-sm">
       <HiOutlineUser className="h-5 w-5" />
       <span>Sign In</span>
     </Link>

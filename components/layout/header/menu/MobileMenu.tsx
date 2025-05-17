@@ -23,7 +23,7 @@ const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
 
       {/* Menu Panel */}
       <div
-        className={`absolute top-0 right-0 bottom-0 min-h-[100vh] w-64 bg-white dark:bg-black shadow-md z-50 transform transition-transform duration-300 ${
+        className={`fixed top-0 bottom-0 right-0 w-64 bg-white dark:bg-black shadow-md z-50 transform transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "translate-x-full"
         } md:hidden`}
       >
