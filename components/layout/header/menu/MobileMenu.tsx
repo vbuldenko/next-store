@@ -1,5 +1,4 @@
 "use client";
-
 import { HiOutlineUser, HiX } from "react-icons/hi";
 import CartIndicator from "./CartIndicator";
 import ModeToggle from "../ModeToggle";
@@ -7,6 +6,7 @@ import { useMobileMenu } from "./MobileMenuProvider";
 import UserMenu from "@/components/auth/SignedInUserMenu";
 import Link from "next/link";
 import { Session } from "next-auth";
+// import { ServerUserButton } from "@/components/auth/ServerUserButton";
 
 const MobileMenu = ({ session }: { session: Session | null }) => {
   const { isOpen, toggle } = useMobileMenu();
@@ -53,6 +53,8 @@ const MobileMenu = ({ session }: { session: Session | null }) => {
                 <span>Sign In</span>
               </Link>
             )}
+
+            {/* <ServerUserButton /> */}
             <CartIndicator count={0} />
           </div>
         </div>
