@@ -1,12 +1,12 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
-// import { hashPassword } from "./lib/utils";
-import { ZodError } from "zod";
 import { Provider } from "next-auth/providers";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import prisma from "@/lib/db/prisma";
-// import { signInFormSchema } from "./lib/validators";
+import { signInFormSchema } from "./lib/validators";
+import { compare } from "./lib/encrypt";
+import { NextResponse } from "next/server";
 
 const providers: Provider[] = [
   Credentials({
@@ -24,37 +24,37 @@ const providers: Provider[] = [
     },
     async authorize(credentials) {
       try {
-        let user;
-
+        // Validate the credentials with Zod schema
         if (!credentials) {
-          user = null;
+          throw new Error("No credentials provided");
         }
-        // const { email, password } = await signInFormSchema.parseAsync(
-        //   credentials
-        // );
+        const { email, password } =
+          credentials as typeof signInFormSchema._type;
+        // Check if email and password are provided
 
-        // logic to salt and hash password
-        // const pwHash = hashPassword(credentials.password as string);
+        // Find the user in the database
+        const user = await prisma.user.findUnique({
+          where: { email },
+        });
 
-        // logic to verify if the user exists
-        // user = await getUserFromDb(credentials.email, pwHash);
-
-        if (!user) {
-          // No user found, so this is their first attempt to login
-          // Optionally, this is also the place you could do a user registration
-          throw new Error("Invalid credentials.");
+        // If user doesn't exist or password doesn't match
+        if (!user || !user.password) {
+          throw new Error("Invalid credentials");
         }
 
-        // return user object with their profile data
-        return user;
+        const { password: paswordHash, ...userWithoutPassword } = user;
+
+        // Compare the provided password with the stored hash
+        const passwordMatch = await compare(password, paswordHash);
+
+        if (!passwordMatch) {
+          throw new Error("Invalid credentials");
+        }
+
+        return userWithoutPassword;
       } catch (error) {
-        // Handle error
-        console.error("Error during sign-in:", error);
-        if (error instanceof ZodError) {
-          // Return `null` to indicate that the credentials are invalid
-          return null;
-        }
-        throw new Error("Invalid credentials.");
+        console.error("Auth error:", error);
+        throw error;
       }
     },
   }),
@@ -75,7 +75,65 @@ export const providerMap = providers
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
   providers,
+  session: {
+    strategy: "jwt", // Store auth data in JWT for credentials provider
+  },
+  callbacks: {
+    async jwt({ token, user }) {
+      // If user is authenticated, add their ID to the token
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      // Add the user ID to the session
+      if (session.user && token.id) {
+        session.user.id = token.id as string;
+      }
+      return session;
+    },
+    authorized({ request, auth }) {
+      // Array of regex patterns of paths we want to protect
+      const protectedPaths = [
+        /\/shipping-address/,
+        /\/payment-method/,
+        /\/place-order/,
+        /\/profile/,
+        /\/user\/(.*)/,
+        /\/order\/(.*)/,
+        /\/admin/,
+      ];
+
+      // Get pathname from the req URL object
+      const { pathname } = request.nextUrl;
+      // Check if user is not authenticated and accessing a protected path
+      if (!auth && protectedPaths.some((p) => p.test(pathname))) return false;
+
+      // Check for session cart cookie
+      if (!request.cookies.get("sessionCartId")) {
+        // Generate new session cart id cookie
+        const sessionCartId = crypto.randomUUID();
+
+        // Create new response and add the new headers
+        const response = NextResponse.next({
+          request: {
+            headers: new Headers(request.headers),
+          },
+        });
+
+        // Set newly generated sessionCartId in the response cookies
+        response.cookies.set("sessionCartId", sessionCartId);
+
+        return response;
+      }
+
+      return true;
+    },
+  },
   pages: {
-    signIn: "/signin",
+    signIn: "/sign-in",
+    error: "/sign-in", // Error page
+    signOut: "/", // Redirect after signing out
   },
 });
