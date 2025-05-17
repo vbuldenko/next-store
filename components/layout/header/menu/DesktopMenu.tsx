@@ -1,6 +1,6 @@
 import ModeToggle from "../ModeToggle";
-import SignInOutButton from "@/components/auth/SignInOutButton";
 import CartIndicator from "./CartIndicator";
+import { ServerSignInOutButton } from "@/components/auth/ServerSignInOutButton";
 
 const DesktopMenu = () => {
   return (
@@ -8,7 +8,7 @@ const DesktopMenu = () => {
       <ModeToggle />
 
       <div className="flex items-center justify-center gap-4 lg:gap-6 text-sm font-medium">
-        <SignInOutButton />
+        <ServerSignInOutButton />
         <CartIndicator count={0} />
       </div>
     </nav>

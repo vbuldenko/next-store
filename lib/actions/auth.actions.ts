@@ -64,27 +64,22 @@ export async function handleProviderSignIn(formData: FormData) {
  */
 export async function authenticate(prevState: unknown, formData: FormData) {
   try {
-    const email = formData.get("email");
-    const password = formData.get("password");
+    signInFormSchema.parse({
+      email: formData.get("email"),
+      password: formData.get("password"),
+    });
 
-    // Validate input before attempting authentication
-    try {
-      signInFormSchema.parse({ email, password });
-    } catch (error) {
-      if (error instanceof ZodError) {
-        return {
-          success: false,
-          validationErrors: formatZodErrors(error),
-          message: "Please check your input",
-        };
-      }
-    }
-
-    // Attempt authentication
     await signIn("credentials", formData);
 
     return { success: true, message: "Signed in successfully" };
   } catch (error) {
+    if (error instanceof ZodError) {
+      return {
+        success: false,
+        validationErrors: formatZodErrors(error),
+        message: "Please check your input",
+      };
+    }
     // Handle Next.js redirect (this is not an error)
     if (isRedirectError(error)) {
       throw error;

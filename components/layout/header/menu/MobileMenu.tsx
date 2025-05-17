@@ -1,23 +1,23 @@
 "use client";
 
-import { HiX } from "react-icons/hi";
-import SignInOutButton from "@/components/auth/SignInOutButton";
+import { HiOutlineUser, HiX } from "react-icons/hi";
 import CartIndicator from "./CartIndicator";
 import ModeToggle from "../ModeToggle";
+import { useMobileMenu } from "./MobileMenuProvider";
+import UserMenu from "@/components/auth/SignedInUserMenu";
+import Link from "next/link";
+import { Session } from "next-auth";
 
-interface MobileMenuProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
+const MobileMenu = ({ session }: { session: Session | null }) => {
+  const { isOpen, toggle } = useMobileMenu();
 
-const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
   return (
     <>
       {/* Overlay */}
       {isOpen && (
         <div
           className="fixed inset-0 bg-black/30 z-40 md:hidden"
-          onClick={onClose}
+          onClick={toggle}
         />
       )}
 
@@ -31,7 +31,7 @@ const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
           <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-800 pb-3">
             <h2 className="text-lg font-semibold">Menu</h2>
             <button
-              onClick={onClose}
+              onClick={toggle}
               className="text-gray-700 dark:text-gray-300 cursor-pointer"
             >
               <HiX className="size-6" />
@@ -40,7 +40,19 @@ const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
 
           <div className="flex flex-col mt-4 gap-4 items-start">
             <ModeToggle />
-            <SignInOutButton />
+            {session ? (
+              <UserMenu
+                user={{
+                  name: session.user?.name || "Guest",
+                  image: session.user?.image || null,
+                }}
+              />
+            ) : (
+              <Link href="/sign-in" className="flex items-center gap-2 text-sm">
+                <HiOutlineUser className="h-5 w-5" />
+                <span>Sign In</span>
+              </Link>
+            )}
             <CartIndicator count={0} />
           </div>
         </div>

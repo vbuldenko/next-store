@@ -2,12 +2,25 @@ import SignInForm from "@/components/auth/SignInForm";
 import ProviderButtons from "@/components/auth/ProviderButtons";
 import AuthLayout from "@/components/auth/AuthLayout";
 import Link from "next/link";
+import { Metadata } from "next";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
+
+export const metadata: Metadata = {
+  title: "Sign In",
+};
 
 export default async function SignInPage(props: {
   searchParams: Promise<{ callbackUrl?: string }>;
 }) {
   const searchParams = await props.searchParams;
   const callbackUrl = searchParams?.callbackUrl ?? "/";
+
+  const session = await auth();
+
+  if (session) {
+    return redirect(callbackUrl);
+  }
 
   return (
     <AuthLayout title="Sign In">

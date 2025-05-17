@@ -1,6 +1,5 @@
 import Footer from "@/components/layout/footer";
 import Header from "@/components/layout/header";
-import HeaderCategorySelector from "@/components/layout/header/CategorySelector";
 
 export default function RootLayout({
   children,
@@ -9,7 +8,7 @@ export default function RootLayout({
 }>) {
   return (
     <div className="flex flex-col">
-      <Header categorySelector={<HeaderCategorySelector />} />
+      <Header />
       <main className="flex-1 p-10">{children}</main>
       <Footer />
     </div>

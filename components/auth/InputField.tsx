@@ -8,7 +8,9 @@ interface InputFieldProps {
   placeholder: string;
   autoComplete?: string;
   value?: string;
+  defaultValue?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  className?: string;
 }
 
 export default function InputField({
