@@ -146,7 +146,7 @@ const SignUpForm = () => {
         </div>
 
         {state && !state.success && (
-          <div className="text-center text-destructive">{state.message}</div>
+          <div className="text-center text-red-500">{state.message}</div>
         )}
       </div>
     </form>
