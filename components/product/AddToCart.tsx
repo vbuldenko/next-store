@@ -8,14 +8,24 @@ import { Cart, CartItem } from "@/types";
 // import { ToastAction } from "@/components/ui/toast";
 // import { addItemToCart, removeItemFromCart } from "@/lib/actions/cart.actions";
 import { useTransition } from "react";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const AddToCart = ({ cart, item }: { cart?: Cart; item: CartItem }) => {
-  // const router = useRouter();
+  const router = useRouter();
   // const { toast } = useToast();
 
   const [isPending, startTransition] = useTransition();
 
   const handleAddToCart = async () => {
+    toast.success("My first toast");
+    toast.error("My second toast");
+    toast("This is go to cart toast", {
+      action: {
+        label: "Go To Cart",
+        onClick: () => router.push("/cart"),
+      },
+    });
     startTransition(async () => {
       //   const res = await addItemToCart(item);
       //   if (!res.success) {
@@ -61,26 +71,30 @@ const AddToCart = ({ cart, item }: { cart?: Cart; item: CartItem }) => {
     <div>
       <Button type="button" variant="outline" onClick={handleRemoveFromCart}>
         {isPending ? (
-          <ImSpinner8 className="w-4 h-4 animate-spin" />
+          <ImSpinner8 className="size-4 animate-spin" />
         ) : (
-          <AiOutlineMinus className="w-4 h-4" />
+          <AiOutlineMinus className="size-4" />
         )}
       </Button>
       <span className="px-2">{existItem.qty}</span>
       <Button type="button" variant="outline" onClick={handleAddToCart}>
         {isPending ? (
-          <ImSpinner8 className="w-4 h-4 animate-spin" />
+          <ImSpinner8 className="size-4 animate-spin" />
         ) : (
-          <AiOutlinePlus className="w-4 h-4" />
+          <AiOutlinePlus className="size-4" />
         )}
       </Button>
     </div>
   ) : (
-    <Button className="w-full" type="button" onClick={handleAddToCart}>
+    <Button
+      className="w-full flex gap-2 items-center justify-center"
+      type="button"
+      onClick={handleAddToCart}
+    >
       {isPending ? (
-        <ImSpinner8 className="w-4 h-4 animate-spin" />
+        <ImSpinner8 className="size-4 animate-spin" />
       ) : (
-        <AiOutlinePlus className="w-4 h-4" />
+        <AiOutlinePlus className="size-4" />
       )}{" "}
       Add To Cart
     </Button>

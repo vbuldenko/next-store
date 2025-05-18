@@ -5,7 +5,7 @@ import "@/assets/styles/globals.css";
 import { APP_DESCRIPTION, APP_NAME, SERVER_URL } from "@/lib/constants";
 import { ThemeProvider } from "next-themes";
 import { SessionProvider } from "@/components/auth/SessionProvider";
-
+import { Toaster } from "sonner";
 // const inter = Inter({
 //   subsets: ["latin"],
 //   variable: "--font-inter",
@@ -53,6 +53,7 @@ export default function RootLayout({
             disableTransitionOnChange
             enableColorScheme
           >
+            <Toaster position="bottom-right" />
             {children}
           </ThemeProvider>
         </SessionProvider>
