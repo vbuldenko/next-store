@@ -4,8 +4,11 @@ import { signIn } from "@/auth";
 import { redirect } from "next/navigation";
 import { AuthError } from "next-auth";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
-import { signInFormSchema } from "../validators";
+import { signInFormSchema, signUpFormSchema } from "../validators";
 import { ZodError } from "zod";
+import { hash } from "../encrypt";
+import prisma from "../db/prisma";
+import { formatError } from "../utils";
 
 const SIGNIN_ERROR_URL = "/error";
 
@@ -107,5 +110,48 @@ export async function authenticate(prevState: unknown, formData: FormData) {
       success: false,
       message: "An unexpected error occurred",
     };
+  }
+}
+
+export async function signUp(prevState: unknown, formData: FormData) {
+  try {
+    const user = signUpFormSchema.parse({
+      name: formData.get("name"),
+      email: formData.get("email"),
+      password: formData.get("password"),
+      confirmPassword: formData.get("confirmPassword"),
+    });
+
+    const plainPassword = user.password;
+
+    user.password = await hash(plainPassword);
+
+    await prisma.user.create({
+      data: {
+        name: user.name,
+        email: user.email,
+        password: user.password,
+      },
+    });
+
+    await signIn("credentials", {
+      email: user.email,
+      password: plainPassword,
+    });
+
+    return { success: true, message: "User registered successfully" };
+  } catch (error) {
+    if (error instanceof ZodError) {
+      return {
+        success: false,
+        validationErrors: formatZodErrors(error),
+        message: "Please check your input",
+      };
+    }
+
+    if (isRedirectError(error)) {
+      throw error;
+    }
+    return { success: false, message: formatError(error) };
   }
 }
