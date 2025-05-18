@@ -1,5 +1,6 @@
 // import { auth } from "@/auth";
 // import AddToCart from "@/components/product/AddToCart";
+import AddToCart from "@/components/product/AddToCart";
 import ProductImages from "@/components/product/ProductImages";
 import ProductPrice from "@/components/product/ProductPrice";
 import Rating from "@/components/product/rating";
@@ -79,8 +80,8 @@ export default async function page(props: {
                 </div>
                 {product.stock > 0 && (
                   <div className="flex justify-center items-center">
-                    {/* <AddToCart
-                      cart={cart}
+                    <AddToCart
+                      // cart={cart}
                       item={{
                         productId: product.id,
                         name: product.name,
@@ -89,10 +90,7 @@ export default async function page(props: {
                         qty: 1,
                         image: product.images![0],
                       }}
-                    /> */}
-                    <button className="py-1 px-4 bg-black text-white rounded-2xl">
-                      Add to cart
-                    </button>
+                    />
                   </div>
                 )}
               </CardContent>
