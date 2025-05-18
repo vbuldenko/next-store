@@ -1,27 +1,49 @@
-"use client";
-
-import { useSearchParams } from "next/navigation";
-import Link from "next/link";
-import { HiHome } from "react-icons/hi";
 import { BsExclamationOctagon } from "react-icons/bs";
+import { HiHome } from "react-icons/hi";
+import Link from "next/link";
+import { SearchParams } from "next/dist/server/request/search-params";
 
-enum Error {
-  Configuration = "Configuration",
-}
-
-const errorMap = {
-  [Error.Configuration]: (
+const ERROR_MESSAGES = {
+  Configuration: (
     <p>
       There was a problem when trying to authenticate. Please contact us if this
       error persists. Unique error code:{" "}
       <code className="rounded-sm bg-slate-100 p-1 text-xs">Configuration</code>
     </p>
   ),
+  NoCredentials: <p>Please provide both email and password to sign in.</p>,
+  InvalidCredentials: (
+    <p>The email or password you entered is incorrect. Please try again.</p>
+  ),
+  OAuthAccountNotLinked: (
+    <p>This email is already associated with another sign-in method.</p>
+  ),
+  AccessDenied: (
+    <p>Access denied. You do not have permission to access this resource.</p>
+  ),
+  CallbackRouteError: (
+    <p>
+      There was a problem processing your sign-in request. Please try again.
+    </p>
+  ),
+  Verification: (
+    <p>
+      The verification link is invalid or has expired. Please request a new one.
+    </p>
+  ),
+  Default: <p>Please contact us if this error persists.</p>,
 };
 
-export default function AuthErrorPage() {
-  const search = useSearchParams();
-  const error = search.get("error") as Error;
+export default async function AuthErrorPage({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  // Get error from URL query parameter
+  const { error } = await searchParams;
+  const errorMessage =
+    ERROR_MESSAGES[error as keyof typeof ERROR_MESSAGES] ||
+    ERROR_MESSAGES.Default;
 
   return (
     <div className="flex h-screen w-full flex-col items-center justify-center">
@@ -34,7 +56,7 @@ export default function AuthErrorPage() {
         </div>
 
         <div className="mb-4 font-normal text-gray-700 dark:text-gray-400">
-          {errorMap[error] || "Please contact us if this error persists."}
+          {errorMessage}
         </div>
 
         <Link
