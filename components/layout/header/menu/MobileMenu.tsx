@@ -1,5 +1,5 @@
 "use client";
-import { HiOutlineUser, HiX } from "react-icons/hi";
+import { HiHome, HiOutlineUser, HiX } from "react-icons/hi";
 import CartIndicator from "./CartIndicator";
 import ModeToggle from "../ModeToggle";
 import { useMobileMenu } from "./MobileMenuProvider";
@@ -39,6 +39,9 @@ const MobileMenu = ({ session }: { session: Session | null }) => {
           </div>
 
           <div className="flex flex-col mt-4 gap-4 items-start">
+            <Link href="/" className="flex p-2 gap-2 text-sm">
+              <HiHome className="size-6" />
+            </Link>
             <ModeToggle />
             {session ? (
               <UserMenu
@@ -48,8 +51,8 @@ const MobileMenu = ({ session }: { session: Session | null }) => {
                 }}
               />
             ) : (
-              <Link href="/sign-in" className="flex items-center gap-2 text-sm">
-                <HiOutlineUser className="h-5 w-5" />
+              <Link href="/sign-in" className="flex p-2 gap-2 text-sm">
+                <HiOutlineUser className="size-6" />
                 <span>Sign In</span>
               </Link>
             )}

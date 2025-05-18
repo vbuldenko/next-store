@@ -120,7 +120,7 @@ const SignUpForm = () => {
           {/* <Label htmlFor="confirmPassword">Confirm Password</Label> */}
           <Input
             icon={<HiKey className="text-gray-400" />}
-            type="confirmPassword"
+            type="password"
             name="confirmPassword"
             id="confirmPassword"
             placeholder="Confirm Password"
@@ -137,7 +137,7 @@ const SignUpForm = () => {
           />
           {state.validationErrors?.confirmPassword && (
             <p id="confirmPassword-error" className="text-red-500 text-xs mt-1">
-              {state.validationErrors.password}
+              {state.validationErrors.confirmPassword}
             </p>
           )}
         </div>
