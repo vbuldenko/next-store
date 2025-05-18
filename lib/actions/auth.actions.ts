@@ -12,27 +12,39 @@ import { formatError } from "../utils";
 
 const SIGNIN_ERROR_URL = "/error";
 
+type AuthErrorWithCause = Error & {
+  cause?: {
+    err?: { message?: string };
+    message?: string;
+  };
+};
+
 // Helper function to get error code from AuthError
-function getAuthErrorCode(error: AuthError): string {
-  if (error.message.includes("CredentialsSignin")) return "CredentialsSignin";
-  if (error.message.includes("OAuthAccountNotLinked"))
-    return "OAuthAccountNotLinked";
-  if (error.message.includes("AccessDenied")) return "AccessDenied";
-  if (error.message.includes("Verification")) return "Verification";
-  if (error.message.includes("CallbackRouteError")) return "CallbackRouteError";
-  if (error.message.includes("Configuration")) return "Configuration";
+function getAuthErrorCode(error: AuthErrorWithCause): string {
+  const message =
+    error.cause?.err?.message || error.cause?.message || error.message;
+
+  if (message.includes("No credentials provided")) return "NoCredentials";
+  if (message.includes("Invalid credentials")) return "InvalidCredentials";
+  if (message.includes("CredentialsSignin")) return "CredentialsSignin";
+  if (message.includes("OAuthAccountNotLinked")) return "OAuthAccountNotLinked";
+  if (message.includes("AccessDenied")) return "AccessDenied";
+  if (message.includes("Verification")) return "Verification";
+  if (message.includes("CallbackRouteError")) return "CallbackRouteError";
+  if (message.includes("Configuration")) return "Configuration";
   return "Unknown";
 }
 
-// Map error codes to user-friendly messages
 const ERROR_MESSAGES: Record<string, string> = {
-  CredentialsSignin: "Invalid email or password",
-  OAuthAccountNotLinked: "Email already used with another provider",
-  AccessDenied: "Access denied to this account",
-  Verification: "The verification token is invalid or has expired",
-  Configuration: "Authentication system misconfiguration",
-  CallbackRouteError: "Error during authentication callback",
-  Unknown: "Authentication failed",
+  NoCredentials: "Please provide both email and password.",
+  InvalidCredentials: "Invalid email or password.",
+  CredentialsSignin: "Invalid email or password.",
+  OAuthAccountNotLinked: "Email already used with another provider.",
+  AccessDenied: "Access denied to this account.",
+  Verification: "The verification token is invalid or has expired.",
+  Configuration: "Authentication system misconfiguration.",
+  CallbackRouteError: "Error during authentication callback.",
+  Unknown: "Authentication failed.",
 };
 
 // Format Zod validation errors
@@ -55,8 +67,18 @@ export async function handleProviderSignIn(formData: FormData) {
     await signIn(providerId, { redirectTo: callbackUrl || "/" });
   } catch (error) {
     if (error instanceof AuthError) {
-      const errorCode = getAuthErrorCode(error);
-      return redirect(`${SIGNIN_ERROR_URL}?error=${errorCode}`);
+      // Redirect for Google (or other OAuth) errors
+      if (providerId === "google") {
+        const errorCode = getAuthErrorCode(error as AuthErrorWithCause);
+        return redirect(`${SIGNIN_ERROR_URL}?error=${errorCode}`);
+      }
+      // For other providers return the error to show inline
+      return {
+        success: false,
+        message:
+          ERROR_MESSAGES[getAuthErrorCode(error as AuthErrorWithCause)] ||
+          "Authentication failed",
+      };
     }
     throw error;
   }
@@ -76,6 +98,11 @@ export async function authenticate(prevState: unknown, formData: FormData) {
 
     return { success: true, message: "Signed in successfully" };
   } catch (error) {
+    // Handle Next.js redirect (this is not an error)
+    if (isRedirectError(error)) {
+      throw error;
+    }
+
     if (error instanceof ZodError) {
       return {
         success: false,
@@ -83,14 +110,10 @@ export async function authenticate(prevState: unknown, formData: FormData) {
         message: "Please check your input",
       };
     }
-    // Handle Next.js redirect (this is not an error)
-    if (isRedirectError(error)) {
-      throw error;
-    }
 
     // Handle authentication errors
     if (error instanceof AuthError) {
-      const errorCode = getAuthErrorCode(error);
+      const errorCode = getAuthErrorCode(error as AuthErrorWithCause);
       const errorMessage = ERROR_MESSAGES[errorCode];
 
       // Log configuration errors for debugging
