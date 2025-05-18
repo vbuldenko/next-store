@@ -3,6 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { HiHome } from "react-icons/hi";
+import { BsExclamationOctagon } from "react-icons/bs";
 
 enum Error {
   Configuration = "Configuration",
@@ -25,9 +26,13 @@ export default function AuthErrorPage() {
   return (
     <div className="flex h-screen w-full flex-col items-center justify-center">
       <div className="block max-w-sm rounded-lg border border-gray-200 bg-white p-6 text-center shadow dark:border-gray-700 dark:bg-gray-800">
-        <h5 className="mb-2 flex flex-row items-center justify-center gap-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-          Something went wrong
-        </h5>
+        <div className="flex items-center justify-center gap-2 mb-2">
+          <BsExclamationOctagon className="size-5" />
+          <h5 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+            Something went wrong
+          </h5>
+        </div>
+
         <div className="mb-4 font-normal text-gray-700 dark:text-gray-400">
           {errorMap[error] || "Please contact us if this error persists."}
         </div>
