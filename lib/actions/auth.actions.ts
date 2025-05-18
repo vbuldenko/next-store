@@ -67,18 +67,8 @@ export async function handleProviderSignIn(formData: FormData) {
     await signIn(providerId, { redirectTo: callbackUrl || "/" });
   } catch (error) {
     if (error instanceof AuthError) {
-      // Redirect for Google (or other OAuth) errors
-      if (providerId === "google") {
-        const errorCode = getAuthErrorCode(error as AuthErrorWithCause);
-        return redirect(`${SIGNIN_ERROR_URL}?error=${errorCode}`);
-      }
-      // For other providers return the error to show inline
-      return {
-        success: false,
-        message:
-          ERROR_MESSAGES[getAuthErrorCode(error as AuthErrorWithCause)] ||
-          "Authentication failed",
-      };
+      const errorCode = getAuthErrorCode(error as AuthErrorWithCause);
+      return redirect(`${SIGNIN_ERROR_URL}?error=${errorCode}`);
     }
     throw error;
   }
