@@ -2,8 +2,6 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 // import qs from 'query-string';
 
-import bcrypt from "bcryptjs";
-
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -55,22 +53,22 @@ export function round2(value: number | string) {
   }
 }
 
-// const CURRENCY_FORMATTER = new Intl.NumberFormat('en-US', {
-//   currency: 'USD',
-//   style: 'currency',
-//   minimumFractionDigits: 2,
-// });
+const CURRENCY_FORMATTER = new Intl.NumberFormat("en-US", {
+  currency: "USD",
+  style: "currency",
+  minimumFractionDigits: 2,
+});
 
-// // Format currency using the formatter above
-// export function formatCurrency(amount: number | string | null) {
-//   if (typeof amount === 'number') {
-//     return CURRENCY_FORMATTER.format(amount);
-//   } else if (typeof amount === 'string') {
-//     return CURRENCY_FORMATTER.format(Number(amount));
-//   } else {
-//     return 'NaN';
-//   }
-// }
+// Format currency using the formatter above
+export function formatCurrency(amount: number | string | null) {
+  if (typeof amount === "number") {
+    return CURRENCY_FORMATTER.format(amount);
+  } else if (typeof amount === "string") {
+    return CURRENCY_FORMATTER.format(Number(amount));
+  } else {
+    return "NaN";
+  }
+}
 
 // // Format Number
 // const NUMBER_FORMATTER = new Intl.NumberFormat('en-US');
@@ -148,10 +146,3 @@ export function round2(value: number | string) {
 //     }
 //   );
 // }
-
-export async function hashPassword(
-  password: string,
-  saltRounds: number = 10
-): Promise<string> {
-  return await bcrypt.hash(password, saltRounds);
-}

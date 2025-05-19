@@ -58,7 +58,8 @@ const MobileMenu = ({ session }: { session: Session | null }) => {
             )}
 
             {/* <ServerUserButton /> */}
-            <CartIndicator count={0} />
+
+            <CartIndicator />
           </div>
         </div>
       </div>

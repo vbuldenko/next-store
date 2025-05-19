@@ -94,6 +94,32 @@ export async function getMyCart() {
 }
 
 /**
+ * Gets the current cart count
+ */
+
+export async function getCartCount() {
+  try {
+    // Use a different approach that doesn't cause revalidation
+    const { cookies } = await import("next/headers");
+    const sessionCartId = (await cookies()).get("sessionCartId")?.value;
+
+    // Return early if no session
+    if (!sessionCartId) return 0;
+    // Query directly without causing revalidation
+    const cart = await prisma.cart.findFirst({
+      where: { sessionCartId },
+      select: { items: true },
+    });
+
+    const items = convertToPlainObject(cart?.items as CartItem[]) || [];
+    return items.reduce((acc, item) => acc + (item?.qty || 0), 0);
+  } catch (error) {
+    console.error("Failed to get cart count:", error);
+    return 0;
+  }
+}
+
+/**
  * Adds an item to the cart
  */
 export async function addItemToCart(data: CartItem) {
