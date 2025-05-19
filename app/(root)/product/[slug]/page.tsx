@@ -1,12 +1,11 @@
 // import { auth } from "@/auth";
-// import AddToCart from "@/components/product/AddToCart";
 import AddToCart from "@/components/product/AddToCart";
 import ProductImages from "@/components/product/ProductImages";
 import ProductPrice from "@/components/product/ProductPrice";
 import Rating from "@/components/product/rating";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-// import { getMyCart } from "@/lib/actions/cart.actions";
+import { getMyCart } from "@/lib/actions/cart.actions";
 import { getProductBySlug } from "@/lib/actions/product.actions";
 import { notFound } from "next/navigation";
 import { MdBrandingWatermark, MdCategory } from "react-icons/md";
@@ -22,7 +21,7 @@ export default async function page(props: {
   // const session = await auth();
   // const userId = session?.user?.id;
 
-  // const cart = await getMyCart();
+  const cart = await getMyCart();
 
   return (
     <>
@@ -81,7 +80,7 @@ export default async function page(props: {
                 {product.stock > 0 && (
                   <div className="flex justify-center items-center">
                     <AddToCart
-                      // cart={cart}
+                      cart={cart}
                       item={{
                         productId: product.id,
                         name: product.name,

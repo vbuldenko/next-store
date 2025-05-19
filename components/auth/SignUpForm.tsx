@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import Input from "@/components/auth/InputField";
 // import { Label } from "@/components/ui/label";
-import { signUpDefaultValues } from "@/lib/constants";
+import { signUpDefaultValues } from "@/lib/constants/testDefaults";
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
 import { signUp } from "@/lib/actions/auth.actions";
