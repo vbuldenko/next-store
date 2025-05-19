@@ -1,21 +1,18 @@
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { clsx } from "clsx";
+import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
   "cursor-pointer inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
-        default: "bg-black text-white hover:bg-blue-600",
-        destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline:
-          "rounded-[6px] border-0 bg-[linear-gradient(156deg,_#fff,_#f0f0f0)] shadow hover:bg-gray-100 hover: text-gray-900",
-        secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+        default: "bg-black text-white hover:bg-gray-600",
+        destructive: "bg-red-700 text-white hover:bg-red-700/90",
+        outline: "border-0 shadow hover:bg-gray-100 hover:text-green-600",
+        secondary: "bg-yellow-200 text-white hover:bg-bg-yellow-200/80",
+        ghost: "hover:bg-teal-50 hover:text-teal-200",
+        link: "text-black underline-offset-4 hover:underline",
       },
       size: {
         default: "h-10 px-4 py-2",
@@ -48,7 +45,7 @@ const Button = ({
 }: ButtonProps) => {
   return (
     <button
-      className={clsx(buttonVariants({ variant, size, className }))}
+      className={cn(buttonVariants({ variant, size, className }))}
       ref={ref}
       {...props}
     />

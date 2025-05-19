@@ -5,7 +5,7 @@ import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 import { ImSpinner8 } from "react-icons/im";
 import { Cart, CartItem } from "@/types";
 import { addItemToCart, removeItemFromCart } from "@/lib/actions/cart.actions";
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 import { toast } from "sonner";
 import { HiOutlineBadgeCheck } from "react-icons/hi";
 
@@ -13,8 +13,13 @@ const AddToCart = ({ cart, item }: { cart?: Cart; item: CartItem }) => {
   const router = useRouter();
 
   const [isPending, startTransition] = useTransition();
+  // Track which action is pending
+  const [pendingAction, setPendingAction] = useState<"add" | "remove" | null>(
+    null
+  );
 
   const handleAddToCart = async () => {
+    setPendingAction("add");
     startTransition(async () => {
       const res = await addItemToCart(item);
 
@@ -35,6 +40,7 @@ const AddToCart = ({ cart, item }: { cart?: Cart; item: CartItem }) => {
 
   // Handle remove from cart
   const handleRemoveFromCart = async () => {
+    setPendingAction("remove");
     startTransition(async () => {
       const res = await removeItemFromCart(item.productId);
       if (!res.success) {
@@ -52,17 +58,29 @@ const AddToCart = ({ cart, item }: { cart?: Cart; item: CartItem }) => {
     cart && cart.items.find((x) => x.productId === item.productId);
 
   return existItem ? (
-    <div>
-      <Button type="button" variant="outline" onClick={handleRemoveFromCart}>
-        {isPending ? (
+    <div className="flex items-center justify-center gap-2">
+      <Button
+        className="btn-glow"
+        type="button"
+        variant="outline"
+        onClick={handleRemoveFromCart}
+        disabled={isPending}
+      >
+        {isPending && pendingAction === "remove" ? (
           <ImSpinner8 className="size-4 animate-spin" />
         ) : (
           <AiOutlineMinus className="size-4" />
         )}
       </Button>
       <span className="px-2">{existItem.qty}</span>
-      <Button type="button" variant="outline" onClick={handleAddToCart}>
-        {isPending ? (
+      <Button
+        className="btn-glow"
+        type="button"
+        variant="outline"
+        onClick={handleAddToCart}
+        disabled={isPending}
+      >
+        {isPending && pendingAction === "add" ? (
           <ImSpinner8 className="size-4 animate-spin" />
         ) : (
           <AiOutlinePlus className="size-4" />
