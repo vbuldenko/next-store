@@ -7,26 +7,6 @@ export const SERVER_URL =
 export const LATEST_PRODUCTS_LIMIT =
   Number(process.env.LATEST_PRODUCTS_LIMIT) || 4;
 
-export const signInDefaultValues = {
-  email: "admin@example.com",
-  password: "123456",
-};
-
-export const signUpDefaultValues = {
-  name: "",
-  email: "",
-  password: "",
-  confirmPassword: "",
-};
-
-export const shippingAddressDefaultValues = {
-  fullName: "",
-  streetAddress: "",
-  city: "",
-  postalCode: "",
-  country: "",
-};
-
 export const PAYMENT_METHODS = process.env.PAYMENT_METHODS
   ? process.env.PAYMENT_METHODS.split(", ")
   : ["PayPal", "Stripe", "CashOnDelivery"];

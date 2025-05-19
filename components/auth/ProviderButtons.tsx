@@ -1,4 +1,4 @@
-import { providerMap } from "@/auth";
+import { providerMap } from "@/auth/providers";
 import { handleProviderSignIn } from "@/lib/actions/auth.actions";
 import { FaGoogle } from "react-icons/fa";
 
