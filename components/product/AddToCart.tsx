@@ -2,12 +2,12 @@
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
-import { ImSpinner8 } from "react-icons/im";
 import { Cart, CartItem } from "@/types";
 import { addItemToCart, removeItemFromCart } from "@/lib/actions/cart.actions";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 import { HiOutlineBadgeCheck } from "react-icons/hi";
+import { PiSpinner, PiSpinnerBold } from "react-icons/pi";
 
 const AddToCart = ({ cart, item }: { cart?: Cart; item: CartItem }) => {
   const router = useRouter();
@@ -67,7 +67,7 @@ const AddToCart = ({ cart, item }: { cart?: Cart; item: CartItem }) => {
         disabled={isPending}
       >
         {isPending && pendingAction === "remove" ? (
-          <ImSpinner8 className="size-4 animate-spin" />
+          <PiSpinner className="size-4 animate-spin" />
         ) : (
           <AiOutlineMinus className="size-4" />
         )}
@@ -81,7 +81,7 @@ const AddToCart = ({ cart, item }: { cart?: Cart; item: CartItem }) => {
         disabled={isPending}
       >
         {isPending && pendingAction === "add" ? (
-          <ImSpinner8 className="size-4 animate-spin" />
+          <PiSpinner className="size-4 animate-spin" />
         ) : (
           <AiOutlinePlus className="size-4" />
         )}
@@ -94,7 +94,7 @@ const AddToCart = ({ cart, item }: { cart?: Cart; item: CartItem }) => {
       onClick={handleAddToCart}
     >
       {isPending ? (
-        <ImSpinner8 className="size-4 animate-spin" />
+        <PiSpinnerBold className="size-4 animate-spin" />
       ) : (
         <AiOutlinePlus className="size-4" />
       )}{" "}
