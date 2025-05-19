@@ -1,3 +1,4 @@
+import { NextResponse } from 'next/server';
 import NextAuth, { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
@@ -7,6 +8,7 @@ import prisma from "@/lib/db/prisma";
 import { signInFormSchema } from "./lib/validators";
 import { compare } from "./lib/encrypt";
 import { cookies } from "next/headers";
+
 
 const providers: Provider[] = [
   Credentials({
@@ -153,43 +155,43 @@ const authConfig = {
 
       return session;
     },
-    // authorized({ request, auth }) {
-    //   // Array of regex patterns of paths we want to protect
-    //   const protectedPaths = [
-    //     /\/shipping-address/,
-    //     /\/payment-method/,
-    //     /\/place-order/,
-    //     /\/profile/,
-    //     /\/user\/(.*)/,
-    //     /\/order\/(.*)/,
-    //     /\/admin/,
-    //   ];
+    authorized({ request, auth }) {
+       // Array of regex patterns of paths we want to protect
+       const protectedPaths = [
+         /\/shipping-address/,
+         /\/payment-method/,
+         /\/place-order/,
+         /\/profile/,
+         /\/user\/(.*)/,
+         /\/order\/(.*)/,
+         /\/admin/,
+       ];
 
-    //   // Get pathname from the req URL object
-    //   const { pathname } = request.nextUrl;
-    //   // Check if user is not authenticated and accessing a protected path
-    //   if (!auth && protectedPaths.some((p) => p.test(pathname))) return false;
+       // Get pathname from the req URL object
+       const { pathname } = request.nextUrl;
+       // Check if user is not authenticated and accessing a protected path
+       if (!auth && protectedPaths.some((p) => p.test(pathname))) return false;
 
-    //   // Check for session cart cookie
-    //   if (!request.cookies.get("sessionCartId")) {
-    //     // Generate new session cart id cookie
-    //     const sessionCartId = crypto.randomUUID();
+       // Check for session cart cookie
+       if (!request.cookies.get("sessionCartId")) {
+         // Generate new session cart id cookie
+         const sessionCartId = crypto.randomUUID();
 
-    //     // Create new response and add the new headers
-    //     const response = NextResponse.next({
-    //       request: {
-    //         headers: new Headers(request.headers),
-    //       },
-    //     });
+         // Create new response and add the new headers
+         const response = NextResponse.next({
+           request: {
+             headers: new Headers(request.headers),
+           },
+         });
 
-    //     // Set newly generated sessionCartId in the response cookies
-    //     response.cookies.set("sessionCartId", sessionCartId);
+         // Set newly generated sessionCartId in the response cookies
+         response.cookies.set("sessionCartId", sessionCartId);
 
-    //     return response;
-    //   }
+        return response;
+       }
 
-    //   return true;
-    // },
+       return true;
+     },
   },
   pages: {
     signIn: "/sign-in",
