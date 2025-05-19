@@ -1,65 +1,49 @@
 "use client";
 import { Button } from "@/components/ui/button";
-// import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 import { ImSpinner8 } from "react-icons/im";
 import { Cart, CartItem } from "@/types";
-// import { useToast } from "@/hooks/use-toast";
-// import { ToastAction } from "@/components/ui/toast";
-// import { addItemToCart, removeItemFromCart } from "@/lib/actions/cart.actions";
+import { addItemToCart, removeItemFromCart } from "@/lib/actions/cart.actions";
 import { useTransition } from "react";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { HiOutlineBadgeCheck } from "react-icons/hi";
 
 const AddToCart = ({ cart, item }: { cart?: Cart; item: CartItem }) => {
   const router = useRouter();
-  // const { toast } = useToast();
 
   const [isPending, startTransition] = useTransition();
 
   const handleAddToCart = async () => {
-    toast.success("My first toast");
-    toast.error("My second toast");
-    toast("This is go to cart toast", {
-      action: {
-        label: "Go To Cart",
-        onClick: () => router.push("/cart"),
-      },
-    });
     startTransition(async () => {
-      //   const res = await addItemToCart(item);
-      //   if (!res.success) {
-      //     toast({
-      //       variant: "destructive",
-      //       description: res.message,
-      //     });
-      //     return;
-      //   }
-      //   // Handle success add to cart
-      //   toast({
-      //     description: res.message,
-      //     action: (
-      //       <ToastAction
-      //         className="bg-primary text-white hover:bg-gray-800"
-      //         altText="Go To Cart"
-      //         onClick={() => router.push("/cart")}
-      //       >
-      //         Go To Cart
-      //       </ToastAction>
-      //     ),
-      //   });
+      const res = await addItemToCart(item);
+
+      if (!res.success) {
+        toast.error(res.message);
+        return;
+      }
+      // Handle success add to cart
+      toast(res.message, {
+        action: {
+          label: "Go To Cart",
+          onClick: () => router.push("/cart"),
+        },
+        icon: <HiOutlineBadgeCheck className="size-5" />,
+      });
     });
   };
 
   // Handle remove from cart
   const handleRemoveFromCart = async () => {
     startTransition(async () => {
-      //   const res = await removeItemFromCart(item.productId);
-      //   toast({
-      //     variant: res.success ? "default" : "destructive",
-      //     description: res.message,
-      //   });
-      //   return;
+      const res = await removeItemFromCart(item.productId);
+      if (!res.success) {
+        toast.error(res.message);
+        return;
+      }
+
+      toast.success(res.message);
+      return;
     });
   };
 

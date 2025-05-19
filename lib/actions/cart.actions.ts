@@ -51,9 +51,9 @@ export async function addItemToCart(data: CartItem) {
     if (!cart) {
       // Create new cart object
       const newCart = insertCartSchema.parse({
-        userId: userId,
+        userId,
+        sessionCartId,
         items: [item],
-        sessionCartId: sessionCartId,
         ...calcPrice([item]),
       });
 
@@ -82,9 +82,7 @@ export async function addItemToCart(data: CartItem) {
         }
 
         // Increase the quantity
-        (cart.items as CartItem[]).find(
-          (x) => x.productId === item.productId
-        )!.qty = existItem.qty + 1;
+        existItem!.qty = existItem.qty + 1;
       } else {
         // If item does not exist in cart
         // Check stock
@@ -123,7 +121,7 @@ export async function addItemToCart(data: CartItem) {
 export async function getMyCart() {
   // Check for cart cookie
   const sessionCartId = (await cookies()).get("sessionCartId")?.value;
-  // if (!sessionCartId) throw new Error("Cart session not found");
+  if (!sessionCartId) throw new Error("Cart session not found");
 
   // Get session and user ID
   const session = await auth();
@@ -131,7 +129,7 @@ export async function getMyCart() {
 
   // Get user cart from database
   const cart = await prisma.cart.findFirst({
-    where: userId ? { userId: userId } : { sessionCartId: sessionCartId },
+    where: userId ? { userId } : { sessionCartId },
   });
 
   if (!cart) return undefined;
