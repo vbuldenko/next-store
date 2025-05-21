@@ -17,7 +17,6 @@ export default function RippleWrapper({
     color: "red", // Red ripple
     size: 200, // Larger ripple
     duration: 1000, // Slower animation
-    centered: false, // Always ripple from center
     scale: 2, // Scale factor for the ripple
   });
 
