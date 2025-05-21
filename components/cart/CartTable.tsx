@@ -1,9 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
 import { useTransition } from "react";
-import { addItemToCart, removeItemFromCart } from "@/lib/actions/cart.actions";
-import { Cart, CartItem } from "@/types";
+import { Cart } from "@/types";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -18,66 +16,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { formatCurrency } from "@/lib/utils";
 import { ImSpinner8 } from "react-icons/im";
-import {
-  AiOutlineArrowRight,
-  AiOutlineMinus,
-  AiOutlinePlus,
-} from "react-icons/ai";
-
-// NOTE: The code here has changed from the original course code so that the
-// Buttons no longer share the same state and show the loader independently from
-// other items in the cart
-function AddButton({ item }: { item: CartItem }) {
-  const [isPending, startTransition] = useTransition();
-  return (
-    <Button
-      disabled={isPending}
-      variant="outline"
-      type="button"
-      onClick={() =>
-        startTransition(async () => {
-          const res = await addItemToCart(item);
-
-          if (!res.success) {
-            toast.error(res.message);
-          }
-        })
-      }
-    >
-      {isPending ? (
-        <ImSpinner8 className="size-4 animate-spin" />
-      ) : (
-        <AiOutlinePlus className="size-4" />
-      )}
-    </Button>
-  );
-}
-
-function RemoveButton({ item }: { item: CartItem }) {
-  const [isPending, startTransition] = useTransition();
-  return (
-    <Button
-      disabled={isPending}
-      variant="outline"
-      type="button"
-      onClick={() =>
-        startTransition(async () => {
-          const res = await removeItemFromCart(item.productId);
-
-          if (!res.success) {
-            toast.error(res.message);
-          }
-        })
-      }
-    >
-      {isPending ? (
-        <ImSpinner8 className="size-4 animate-spin" />
-      ) : (
-        <AiOutlineMinus className="size-4" />
-      )}
-    </Button>
-  );
-}
+import { AiOutlineArrowRight } from "react-icons/ai";
+import RemoveButton from "./RemoveButton";
+import AddButton from "./AddButton";
 
 const CartTable = ({ cart }: { cart?: Cart }) => {
   const router = useRouter();
