@@ -107,7 +107,7 @@ const computeRippleDimensions = (
 ): { width: number; height: number; borderRadius: string } => {
   let width = options.size!;
   let height = options.size!;
-  let borderRadius = "50%";
+  const borderRadius = "50%";
 
   if (options.shape === "ellipse") {
     width = options.size! * options.aspectRatio!;

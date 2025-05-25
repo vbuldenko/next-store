@@ -12,13 +12,11 @@ import {
   TableRow,
   TableCell,
 } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { formatCurrency } from "@/lib/utils";
-import { ImSpinner8 } from "react-icons/im";
-import { AiOutlineArrowRight } from "react-icons/ai";
 import RemoveButton from "./RemoveButton";
 import AddButton from "./AddButton";
+import ProceedButton from "../ui/proceedButton";
 
 const CartTable = ({ cart }: { cart?: Cart }) => {
   const router = useRouter();
@@ -82,20 +80,11 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
                   {formatCurrency(cart.itemsPrice)}
                 </span>
               </div>
-              <Button
-                className="w-full flex gap-2"
-                disabled={isPending}
-                onClick={() =>
-                  startTransition(() => router.push("/shipping-address"))
-                }
-              >
-                {isPending ? (
-                  <ImSpinner8 className="size-4 animate-spin" />
-                ) : (
-                  <AiOutlineArrowRight className="size-4" />
-                )}{" "}
-                Proceed to Checkout
-              </Button>
+              <ProceedButton
+                isLoading={isPending}
+                onClick={() => startTransition(() => router.push("/shipping"))}
+                text="Proceed to Checkout"
+              />
             </CardContent>
           </Card>
         </div>
