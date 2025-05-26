@@ -79,7 +79,7 @@ export const authConfig = {
     authorized({ request, auth }) {
       // Array of regex patterns of paths we want to protect
       const protectedPaths = [
-        /\/shipping-address/,
+        /\/shipping/,
         /\/payment-method/,
         /\/place-order/,
         /\/profile/,

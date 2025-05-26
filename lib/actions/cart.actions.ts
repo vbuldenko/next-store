@@ -145,7 +145,7 @@ export async function getMyCart(): Promise<Cart | undefined> {
     const { sessionCartId, userId } = await getCartContext();
 
     // Return early if no valid context
-    if (!sessionCartId && !userId) {
+    if (!sessionCartId) {
       return undefined;
     }
 
