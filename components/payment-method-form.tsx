@@ -2,11 +2,15 @@
 
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
-import { paymentMethodSchema } from "@/lib/validators";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { toast } from "sonner";
+
+import { paymentMethodSchema } from "@/lib/validators";
 import { DEFAULT_PAYMENT_METHOD, PAYMENT_METHODS } from "@/lib/constants";
+import { updateUserPaymentMethod } from "@/lib/actions/user.actions";
+
 import {
   Form,
   FormControl,
@@ -16,32 +20,33 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { updateUserPaymentMethod } from "@/lib/actions/user.actions";
-import { toast } from "sonner";
 import ProceedButton from "./ui/proceedButton";
+
+type PaymentMethodFormData = z.infer<typeof paymentMethodSchema>;
+
+type PaymentMethodFormProps = {
+  preferredPaymentMethod: string | null;
+};
 
 const PaymentMethodForm = ({
   preferredPaymentMethod,
-}: {
-  preferredPaymentMethod: string | null;
-}) => {
+}: PaymentMethodFormProps) => {
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
 
-  const form = useForm<z.infer<typeof paymentMethodSchema>>({
+  const form = useForm<PaymentMethodFormData>({
     resolver: zodResolver(paymentMethodSchema),
     defaultValues: {
       type: preferredPaymentMethod || DEFAULT_PAYMENT_METHOD,
     },
   });
 
-  const [isPending, startTransition] = useTransition();
-
-  const onSubmit = async (values: z.infer<typeof paymentMethodSchema>) => {
+  const handleSubmit = async (values: PaymentMethodFormData) => {
     startTransition(async () => {
-      const res = await updateUserPaymentMethod(values);
+      const result = await updateUserPaymentMethod(values);
 
-      if (!res.success) {
-        toast.error(res.message);
+      if (!result.success) {
+        toast.error(result.message);
         return;
       }
 
@@ -50,60 +55,47 @@ const PaymentMethodForm = ({
   };
 
   return (
-    <>
-      <div className="max-w-md mx-auto space-y-4">
-        <h1 className="font-bold mt-4">Payment Method</h1>
+    <div className="max-w-md mx-auto space-y-4">
+      <div className="space-y-2">
+        <h1 className="text-2xl font-bold">Payment Method</h1>
         <p className="text-sm text-gray-500">Please select a payment method</p>
-        <Form {...form}>
-          <form
-            method="post"
-            className="space-y-4"
-            onSubmit={form.handleSubmit(onSubmit)}
-          >
-            <div className="flex flex-col md:flex-row gap-5">
-              <FormField
-                control={form.control}
-                name="type"
-                render={({ field }) => (
-                  <FormItem className="space-y-3">
-                    <FormControl>
-                      <RadioGroup
-                        onValueChange={field.onChange}
-                        className="flex flex-col space-y-2"
-                      >
-                        {PAYMENT_METHODS.map((paymentMethod) => (
-                          <FormItem
-                            key={paymentMethod}
-                            className="flex items-center space-x-3 space-y-0"
-                          >
-                            <FormControl>
-                              <RadioGroupItem
-                                value={paymentMethod}
-                                checked={field.value === paymentMethod}
-                              />
-                            </FormControl>
-                            <FormLabel className="font-normal">
-                              {paymentMethod}
-                            </FormLabel>
-                          </FormItem>
-                        ))}
-                      </RadioGroup>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <ProceedButton
-              isLoading={isPending}
-              type="submit"
-              text="Continue"
-            />
-          </form>
-        </Form>
       </div>
-    </>
+
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+          <FormField
+            control={form.control}
+            name="type"
+            render={({ field }) => (
+              <FormItem className="space-y-3">
+                <FormControl>
+                  <RadioGroup
+                    value={field.value}
+                    onValueChange={field.onChange}
+                    className="space-y-2"
+                  >
+                    {PAYMENT_METHODS.map((paymentMethod) => (
+                      <div
+                        key={paymentMethod}
+                        className="flex items-center space-x-3"
+                      >
+                        <RadioGroupItem value={paymentMethod} />
+                        <FormLabel className="font-normal cursor-pointer">
+                          {paymentMethod}
+                        </FormLabel>
+                      </div>
+                    ))}
+                  </RadioGroup>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <ProceedButton isLoading={isPending} type="submit" text="Continue" />
+        </form>
+      </Form>
+    </div>
   );
 };
 
