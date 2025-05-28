@@ -91,6 +91,11 @@ export async function createOrder() {
 
     if (!insertedOrderId) throw new Error("Order not created");
 
+    // Revalidate paths
+    revalidatePath("/cart");
+    revalidatePath("/orders");
+    revalidatePath(`/order/${insertedOrderId}`);
+
     return {
       success: true,
       message: "Order created",
