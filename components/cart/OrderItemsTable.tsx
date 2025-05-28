@@ -35,7 +35,7 @@ const OrderItemsTable = ({
   return (
     <Table className={className}>
       <TableHeader>
-        <TableRow className="border-b-gray-200">
+        <TableRow className="border-b-gray-200 text-gray-500">
           <TableHead>Item</TableHead>
           <TableHead className="text-center">Quantity</TableHead>
           <TableHead className="text-right">Price</TableHead>

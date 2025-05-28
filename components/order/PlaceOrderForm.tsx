@@ -3,7 +3,9 @@
 import { useRouter } from "next/navigation";
 import { useFormStatus } from "react-dom";
 import { createOrder } from "@/lib/actions/order.actions";
-import ProceedButton from "./ui/proceedButton";
+
+import { IoCheckmarkDone } from "react-icons/io5";
+import ProceedButton from "../ui/proceedButton";
 
 const PlaceOrderForm = () => {
   const router = useRouter();
@@ -20,7 +22,13 @@ const PlaceOrderForm = () => {
 
   const PlaceOrderButton = () => {
     const { pending } = useFormStatus();
-    return <ProceedButton isLoading={pending} text="Place Order" />;
+    return (
+      <ProceedButton
+        isLoading={pending}
+        text="Place Order"
+        icon={<IoCheckmarkDone className="size-5" />}
+      />
+    );
   };
 
   return (
