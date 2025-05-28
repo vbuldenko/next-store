@@ -3,20 +3,62 @@ import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { Cart } from "@/types";
 import Link from "next/link";
-import Image from "next/image";
-import {
-  Table,
-  TableBody,
-  TableHead,
-  TableHeader,
-  TableRow,
-  TableCell,
-} from "@/components/ui/table";
 import { Card, CardContent } from "@/components/ui/card";
 import { formatCurrency } from "@/lib/utils";
-import RemoveButton from "./RemoveButton";
-import AddButton from "./AddButton";
 import ProceedButton from "../ui/proceedButton";
+import { HiOutlineShoppingBag } from "react-icons/hi";
+import { Button } from "../ui/button";
+import OrderItemsTable from "./OrderItemsTable";
+
+const EmptyCartState = () => (
+  <div className="flex flex-col items-center justify-center min-h-[400px] text-center space-y-6">
+    {/* Icon */}
+    <div className="relative">
+      <div className="w-24 h-24 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center">
+        <HiOutlineShoppingBag className="w-12 h-12 text-blue-600" />
+      </div>
+      {/* Decorative elements */}
+      <div className="absolute -top-2 -right-2 w-6 h-6 bg-yellow-400 rounded-full animate-pulse" />
+      <div className="absolute -bottom-1 -left-1 w-4 h-4 bg-green-400 rounded-full animate-bounce" />
+    </div>
+
+    {/* Content */}
+    <div className="space-y-3">
+      <h2 className="text-2xl font-bold text-gray-900">Your cart is empty</h2>
+      <p className="text-gray-600 max-w-md">
+        Looks like you have not added any items to your cart yet. Start
+        exploring our amazing products!
+      </p>
+    </div>
+
+    {/* Action Button */}
+    <Link href="/">
+      <Button
+        size="lg"
+        className="px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 transform hover:scale-105 transition-all duration-200"
+      >
+        <HiOutlineShoppingBag className="w-5 h-5 mr-2" />
+        Start Shopping
+      </Button>
+    </Link>
+
+    {/* Additional suggestions */}
+    <div className="mt-8 pt-6 border-t border-gray-200 w-full max-w-md">
+      <p className="text-sm text-gray-500 mb-3">Popular categories:</p>
+      <div className="flex flex-wrap gap-2 justify-center">
+        {["Electronics", "Clothing", "Books", "Home"].map((category) => (
+          <Link
+            key={category}
+            href={`/search?category=${category.toLowerCase()}`}
+            className="px-3 py-1 text-xs bg-gray-100 hover:bg-gray-200 rounded-full text-gray-700 transition-colors"
+          >
+            {category}
+          </Link>
+        ))}
+      </div>
+    </div>
+  </div>
+);
 
 const CartTable = ({ cart }: { cart?: Cart }) => {
   const router = useRouter();
@@ -26,47 +68,11 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
     <>
       <h1 className="py-4 font-bold">Shopping Cart</h1>
       {!cart || cart.items.length === 0 ? (
-        <div>
-          Cart is empty. <Link href="/">Go Shopping</Link>
-        </div>
+        <EmptyCartState />
       ) : (
         <div className="grid md:grid-cols-4 md:gap-5">
           <div className="overflow-x-auto md:col-span-3">
-            <Table>
-              <TableHeader>
-                <TableRow className="border-b-gray-100">
-                  <TableHead>Item</TableHead>
-                  <TableHead className="text-center">Quantity</TableHead>
-                  <TableHead className="text-right">Price</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {cart.items.map((item) => (
-                  <TableRow key={item.slug} className="border-b-gray-100">
-                    <TableCell>
-                      <Link
-                        href={`/product/${item.slug}`}
-                        className="flex items-center"
-                      >
-                        <Image
-                          src={item.image}
-                          alt={item.name}
-                          width={50}
-                          height={50}
-                        />
-                        <span className="px-2">{item.name}</span>
-                      </Link>
-                    </TableCell>
-                    <TableCell className="flex items-center gap-2">
-                      <RemoveButton item={item} />
-                      <span>{item.qty}</span>
-                      <AddButton item={item} />
-                    </TableCell>
-                    <TableCell className="text-right">${item.price}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            <OrderItemsTable items={cart.items} showQuantityControls />
           </div>
 
           <Card>
