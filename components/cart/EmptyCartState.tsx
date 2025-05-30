@@ -1,8 +1,6 @@
 import Link from "next/link";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { Button } from "../ui/button";
-import { Card } from "../ui/card";
-import { cn } from "@/lib/utils";
 
 export const EmptyCartState = () => (
   <div className="flex flex-col items-center justify-center min-h-[500px] text-center space-y-8 px-4 py-8">
