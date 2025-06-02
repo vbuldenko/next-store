@@ -75,7 +75,7 @@ const OrderDetailsTable = ({
         </div>
 
         {/* Right Column - Order Summary */}
-        <div>
+        <div className="col-span-2 md:col-span-1">
           <OrderSummaryCard
             summary={{
               itemsPrice,

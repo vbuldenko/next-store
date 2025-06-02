@@ -132,7 +132,7 @@ export const OrderSummaryCard = ({
   adminActions,
   showPaymentButtons = true,
   showAdminActions = true,
-  className = "",
+  className,
   variant = "default",
   children,
 }: OrderSummaryCardProps) => {
@@ -193,7 +193,7 @@ export const OrderSummaryCard = ({
             </span>
           </div>
 
-          <hr className="border-border" />
+          <hr className="border-gray-300" />
 
           <div className="flex justify-between text-lg font-semibold">
             <span>Total</span>

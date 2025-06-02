@@ -92,7 +92,7 @@ export const ShippingAddressCard = ({
         {showDeliveryStatus && deliveryStatus && (
           <div className="pt-2">
             {deliveryStatus.isDelivered ? (
-              <Badge variant="secondary" className="text-xs">
+              <Badge variant="success" className="text-xs">
                 Delivered at{" "}
                 {formatDateTime(deliveryStatus.deliveredAt!).dateTime}
               </Badge>

@@ -121,7 +121,7 @@ export const PaymentMethodCard = ({
         {showPaymentStatus && paymentStatus && (
           <div className="pt-1">
             {paymentStatus.isPaid ? (
-              <Badge variant="secondary" className="text-xs">
+              <Badge variant="success" className="text-xs">
                 Paid at {formatDateTime(paymentStatus.paidAt!).dateTime}
               </Badge>
             ) : (
