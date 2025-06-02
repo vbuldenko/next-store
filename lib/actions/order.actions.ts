@@ -14,7 +14,7 @@ import { PAGE_SIZE } from "../constants";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { Prisma } from "@/generated/client";
 
-// Create order and create the order items
+// Create order and create the order items in the database
 export async function createOrder() {
   try {
     const session = await auth();
@@ -106,7 +106,6 @@ export async function createOrder() {
     return { success: false, message: formatError(error) };
   }
 }
-
 export async function getOrderById(orderId: string) {
   const data = await prisma.order.findFirst({
     where: {
