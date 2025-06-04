@@ -3,8 +3,10 @@
 import { getFullUserInfoById } from "@/lib/actions/user.actions";
 import { User } from "@/types";
 import { useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { HiOutlineArrowRightOnRectangle } from "react-icons/hi2";
 
 function Row({
   desc,
@@ -134,6 +136,15 @@ export function UserDetails() {
           </div>
         </>
       )}
+
+      {/* Logout Button */}
+      <button
+        onClick={() => signOut({ callbackUrl: "/" })}
+        className="w-full mt-6 flex items-center justify-center gap-2 h-10 bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 hover:border-red-300 rounded-lg transition-all duration-200 font-medium text-sm"
+      >
+        <HiOutlineArrowRightOnRectangle className="w-4 h-4" />
+        Sign Out
+      </button>
     </div>
     // </div>
   );
