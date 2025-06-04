@@ -3,6 +3,7 @@
 import { HiOutlineUser, HiOutlineLogout } from "react-icons/hi";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
+import Link from "next/link";
 
 interface UserMenuProps {
   user: {
@@ -14,7 +15,10 @@ interface UserMenuProps {
 export default function UserMenu({ user }: UserMenuProps) {
   return (
     <div className="relative group">
-      <button className="flex items-center gap-2 text-sm font-medium rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 p-2">
+      <Link
+        href="/user"
+        className="flex items-center gap-2 text-sm font-medium rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 p-2"
+      >
         {user.image ? (
           <Image
             src={user.image}
@@ -29,7 +33,7 @@ export default function UserMenu({ user }: UserMenuProps) {
         <span className="hidden lg:inline">
           {user.name?.split(" ")[0] || "Account"}
         </span>
-      </button>
+      </Link>
 
       <div className="absolute right-0 mt-1 w-48 bg-white dark:bg-gray-900 rounded-md shadow-lg overflow-hidden z-10 opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-150 transform translate-y-1 group-hover:translate-y-0">
         <div className="py-2">

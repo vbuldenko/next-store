@@ -21,6 +21,18 @@ export async function getUserById(userId: string) {
   if (!user) throw new Error("User not found");
   return user;
 }
+export async function getFullUserInfoById(userId: string) {
+  const user = await prisma.user.findFirst({
+    where: { id: userId },
+    include: {
+      accounts: true,
+      sessions: true,
+      cart: true,
+    },
+  });
+  if (!user) throw new Error("User not found");
+  return JSON.parse(JSON.stringify(user));
+}
 
 export async function updateUserAddress(data: ShippingAddress) {
   try {

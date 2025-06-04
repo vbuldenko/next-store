@@ -3,7 +3,6 @@ import Link from "next/link";
 import { HiOutlineUser } from "react-icons/hi";
 import UserMenu from "./SignedInUserMenu";
 
-// This is a Server Component (no "use client" directive)
 export async function ServerUserButton() {
   const session = await auth();
 

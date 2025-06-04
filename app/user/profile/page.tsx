@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { auth } from "@/auth";
 import { SessionProvider } from "next-auth/react";
+import { UserDetails } from "@/components/UserDetails";
 
 export const metadata: Metadata = {
   title: "Customer Profile",
@@ -13,7 +14,8 @@ const Profile = async () => {
     <SessionProvider session={session}>
       <div className="max-w-md mx-auto space-y-4">
         <h2 className="h2-bold">Profile</h2>
-        {/* <ProfileForm /> */}
+
+        <UserDetails />
       </div>
     </SessionProvider>
   );
