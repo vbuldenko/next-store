@@ -20,7 +20,7 @@ export default function UserLayout({
           </div>
         </div>
 
-        <div className="flex-1 flex flex-col gap-8 p-8 pt-6 container mx-auto">
+        <div className="flex-1 flex flex-col gap-10 p-8 pt-6 container mx-auto">
           {children}
         </div>
       </div>

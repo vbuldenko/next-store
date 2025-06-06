@@ -74,7 +74,7 @@ const ProfileForm = () => {
       </div>
 
       {/* Form Card */}
-      <div className="bg-gradient-to-b from-white to-gray-50/50 rounded-2xl border border-gray-200/60 p-6 shadow-xl">
+      <div className="bg-gradient-to-b from-white to-gray-50/50 rounded-2xl p-6 shadow-[0_5px_15px_rgba(0,0,0,0.08),0_15px_35px_-5px_rgba(25,28,33,0.2)]">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(handleSubmit)}

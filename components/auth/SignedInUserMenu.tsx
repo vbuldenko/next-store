@@ -37,18 +37,18 @@ export default function UserMenu({ user }: UserMenuProps) {
 
       <div className="absolute right-0 mt-1 w-48 bg-white dark:bg-gray-900 rounded-md shadow-lg overflow-hidden z-10 opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-150 transform translate-y-1 group-hover:translate-y-0">
         <div className="py-2">
-          {/* <Link
-            href="/account"
+          <Link
+            href="/user/profile"
             className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
           >
             My Account
           </Link>
           <Link
-            href="/orders"
+            href="/user/orders"
             className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
           >
             Orders
-          </Link> */}
+          </Link>
           <button
             onClick={() => signOut({ callbackUrl: "/" })}
             className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center gap-2"
