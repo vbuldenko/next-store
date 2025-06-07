@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* @plugin 'tailwindcss-animate'; */
+@plugin 'tailwindcss-animate';
 
 /* @custom-variant dark (&:is(.dark *)); */
 
@@ -42,6 +42,17 @@
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
+
+  --animate-wiggle: wiggle 1s ease-in-out infinite;
+  @keyframes wiggle {
+    0%,
+    100% {
+      transform: rotate(-3deg);
+    }
+    50% {
+      transform: rotate(3deg);
+    }
+  }
 }
 
 /*
@@ -72,6 +83,10 @@
 
 @utility flex-center {
   @apply flex justify-center items-center;
+}
+
+@utility flex-col-center {
+  @apply flex flex-col justify-center items-center;
 }
 
 @utility flex-between {

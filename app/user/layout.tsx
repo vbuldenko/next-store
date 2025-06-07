@@ -1,5 +1,6 @@
 import { Logo } from "@/components/layout/header/Logo";
 import MainNav from "@/components/shared/MainNav";
+import Menu from "@/components/shared/Menu";
 // import Menu from "@/components/shared/menu";
 
 export default function UserLayout({
@@ -15,7 +16,7 @@ export default function UserLayout({
             <Logo />
             <MainNav className="mx-6" />
             <div className="ml-auto items-center flex space-x-4">
-              {/* <Menu /> */}
+              <Menu />
             </div>
           </div>
         </div>

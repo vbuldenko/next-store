@@ -21,9 +21,9 @@ const StatusBadge = ({
   falseText: string;
   date?: Date | null;
 }) => (
-  <div className="flex flex-col gap-1">
+  <div className="flex flex-col gap-2">
     <span
-      className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${
+      className={`flex-center px-2.5 py-1 rounded-full text-xs font-medium ${
         isTrue
           ? "bg-green-100 text-green-800 border border-green-200"
           : "bg-gray-100 text-gray-600 border border-gray-200"
@@ -73,7 +73,6 @@ const OrdersPage = async (props: {
         </div>
         <div>
           <h1 className="text-3xl font-bold text-gray-900">My Orders</h1>
-          <p className="text-gray-600">Track and manage your orders</p>
         </div>
       </div>
 
@@ -84,7 +83,7 @@ const OrdersPage = async (props: {
             key={order.id}
             className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm hover:shadow-md transition-all duration-200"
           >
-            <div className="grid grid-cols-1 md:grid-cols-6 gap-4 items-start">
+            <div className="grid grid-cols-1 md:grid-cols-6 gap-4 min-w-[15rem]">
               {/* Order ID & Date */}
               <div className="md:col-span-2">
                 <div className="flex items-center gap-2 mb-2">
@@ -138,13 +137,13 @@ const OrdersPage = async (props: {
               </div>
 
               {/* Actions */}
-              <div className="flex self-center">
+              <div className="flex-center self-center">
                 <Button variant="outline" size="lg">
                   <Link
                     href={`/order/${order.id}`}
                     className="flex items-center text-sm"
                   >
-                    View Details
+                    Details
                   </Link>
                 </Button>
               </div>
